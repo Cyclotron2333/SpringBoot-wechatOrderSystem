@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!--更常用的方法-->
+
+<configuration>
+
+    <!--配置控制台输出-->
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">    <!--指明这个配置项要用要此类进行处理-->
+        <layout class="ch.qos.logback.classic.PatternLayout">   <!--展现的形式配置-->
+            <pattern>   <!--具体的格式-->
+                %d - %msg%n
+            </pattern>
+        </layout>
+    </appender>
+
+    <!--配置文件输出，滚动输出策略-->
+    <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">   <!--滚动文件输出-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+<!--            ACCEPT->被本条规则（"fileInfoLog"）接受处理，NEUTRAL->被这条规则忽略-->
+        </filter>
+        <encoder>
+            <pattern>
+                %d - %msg%n
+            </pattern>
+        </encoder>
+        <!--滚动策略配置，按照时间滚动-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--路径-->
+            <fileNamePattern>D:/WechatOrder/var/log/tomcat/sell/info.%d.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <!--配置另一个配置项，使error单独输出到一个文件-->
+    <appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">   <!--滚动文件输出-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder>
+            <pattern>
+                %d - %msg%n
+            </pattern>
+        </encoder>
+        <!--滚动策略配置，按照时间滚动-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--路径-->
+            <fileNamePattern>D:/WechatOrder/var/log/tomcat/sell/error.%d.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+
+    <root level="info"> <!--全局适用-->
+        <appender-ref ref="consoleLog"/>    <!--前面配置了appender name="consoleLog"-->
+        <appender-ref ref="fileInfoLog"/>   <!--指定在rootInfo级别下使用这个配置-->
+        <appender-ref ref="fileErrorLog"/>   <!--指定在rootInfo级别下使用这个配置-->
+    </root>
+
+</configuration>
