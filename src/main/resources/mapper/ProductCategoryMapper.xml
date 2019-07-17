@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--填上mapper类文件对应的路径-->
+<mapper namespace="com.wechat_order.sell.dataobject.mapper.ProductCategoryMapper">
+<!--    type是对应的数据库对象-->
+    <resultMap id="BaseResultMap" type="com.wechat_order.sell.dataobject.ProductCategory">
+<!--        要返回的结果-->
+<!--        id标签表示的是主键，column是字段的名字，property是要映射成的变量，jdbcType是数据库字段的类型-->
+        <id column = "category_id" property = "categoryId" jdbcType="INTEGER" />
+        <id column = "category_name" property = "categoryName" jdbcType="VARCHAR" />
+        <id column = "category_type" property = "categoryType" jdbcType="INTEGER" />
+    </resultMap>
+<!--    查询的方法-->
+<!--    parameterType是方法的参数类型-->
+    <select id="selectByCategoryType" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select category_id, category_name, category_type
+        from product_category
+        where category_type = #{category_type, jdbcType=INTEGER}
+    </select>
+</mapper>
